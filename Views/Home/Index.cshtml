@@ -1,0 +1,67 @@
+﻿
+@model List<Trip>
+@{
+    ViewBag.Title = "My Trip Log";
+}
+
+<div class="container-fluid">
+    <header class="text-center text-white">
+        <h2 class="bg-primary mt-3 p-3">My Trip Log</h2>
+    </header>
+</div>
+<a asp-controller="Trip" asp-action="Add">Add Trip</a>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Destination</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Accomodations</th>
+            <th>Things To Do</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var trip in Model) { 
+        <tr>
+            <td>@trip.Destination</td>
+            <td>@trip.StartDate</td>
+            <td>@trip.EndDate</td>
+            <td>
+                @if (!string.IsNullOrWhiteSpace(trip.Accomodation))
+                {
+                    System.Text.StringBuilder sb = new System.Text.StringBuilder(trip.Accomodation);
+                    if (!string.IsNullOrWhiteSpace(trip.AccomodationPhone))
+                    {
+                        sb.Append($"<br/>{trip.AccomodationPhone}");
+                    }
+                    if (!string.IsNullOrWhiteSpace(trip.AccomodationEmail))
+                    {
+                        sb.Append($" | {trip.AccomodationEmail}");
+                    }
+
+                    var str = new Microsoft.AspNetCore.Html.HtmlString(sb.ToString());
+                    @Html.Raw(str);
+                }
+            </td>
+            <td>@if (!string.IsNullOrWhiteSpace(trip.ThingToDo1))
+                {
+                    System.Text.StringBuilder sb = new System.Text.StringBuilder(trip.ThingToDo1);
+                    if (!string.IsNullOrWhiteSpace(trip.ThingToDo2))
+                    {
+                        sb.Append($"<br/>{trip.ThingToDo2}");
+                    }
+                    if (!string.IsNullOrWhiteSpace(trip.ThingToDo3))
+                    {
+                        sb.Append($"<br/>{trip.ThingToDo3}");
+                    }
+
+                    var str = new Microsoft.AspNetCore.Html.HtmlString(sb.ToString());
+                    @Html.Raw(str);
+                }
+            </td>
+        </tr>
+        }
+    </tbody>
+    </table>
+
+
